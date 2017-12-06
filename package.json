@@ -1,0 +1,22 @@
+{
+  "name": "8puzzle_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev001hajipro/8puzzle_js.git"
+  },
+  "keywords": [
+    "8puzzle"
+  ],
+  "author": "dev001hajipro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dev001hajipro/8puzzle_js/issues"
+  },
+  "homepage": "https://github.com/dev001hajipro/8puzzle_js#readme"
+}

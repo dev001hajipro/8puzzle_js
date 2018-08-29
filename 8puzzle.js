@@ -1,21 +1,27 @@
+// 5 => [0, 1, 2, 3, 4]
+const genArray = n => Array.from(Array(n).keys());
+const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+
 const PIECE_WIDTH = 200;
 const PIECE_HEIGHT = 200;
-var cols = 0;
-var rows = 0;
+let cols = 0;
+let rows = 0;
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {
+let game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {
     preload: preload,
     create: create,
 });
+
 function preload() {
     game.load.spritesheet('background', "assets/games/sliding-puzzle/bl.jpg", PIECE_WIDTH, PIECE_HEIGHT);
 }
+
 function create() {
-    cols = Math.floor(game.world.width/ PIECE_WIDTH);
-    rows = Math.floor(game.world.height/ PIECE_HEIGHT);
+    cols = Math.floor(game.world.width / PIECE_WIDTH);
+    rows = Math.floor(game.world.height / PIECE_HEIGHT);
 
     var arr = shuffle(genArray(cols * rows));
-    
+
     piecesGroup = game.add.group();
     let piecesIndex = 0; // view piece number.
     for (var r = 0; r < rows; r++) {
@@ -47,26 +53,23 @@ function create() {
     }
 }
 
-// 5 => [0, 1, 2, 3, 4]
-const genArray = n => Array.from(Array(n).keys());
-const shuffle = arr => arr.sort(() => Math.random() - 0.5);
 function selectPiece(piece) {
     let blackPiece = canMove(piece);
     if (blackPiece.length > 0) {
         movePiece(piece, blackPiece[0]);
     }
-    
+
     checkIfFinished();
 }
 // 近傍チェック
 function canMove(piece) {
     let blackPiece = [];
     piecesGroup.children.forEach(function (e) {
-        if (e.posX === (piece.posX -1) && e.posY === piece.posY && e.black || // 左に黒タイルがある
-            e.posX === (piece.posX +1) && e.posY === piece.posY && e.black || // 右に黒タイルがある
-            e.posX === piece.posX && e.posY === (piece.posY -1) && e.black || // 上に黒タイルがある
-            e.posX === piece.posX && e.posY === (piece.posY +1) && e.black) {// 下に黒タイルがある
-                blackPiece.push(e);
+        if (e.posX === (piece.posX - 1) && e.posY === piece.posY && e.black || // 左に黒タイルがある
+            e.posX === (piece.posX + 1) && e.posY === piece.posY && e.black || // 右に黒タイルがある
+            e.posX === piece.posX && e.posY === (piece.posY - 1) && e.black || // 上に黒タイルがある
+            e.posX === piece.posX && e.posY === (piece.posY + 1) && e.black) {// 下に黒タイルがある
+            blackPiece.push(e);
         }
     });
     return blackPiece;
@@ -80,11 +83,12 @@ function movePiece(piece, blackPiece) {
     // update UI
     game.add.tween(piece).to({
         x: blackPiece.posX * PIECE_WIDTH,
-        y: blackPiece.posY * PIECE_HEIGHT},
+        y: blackPiece.posY * PIECE_HEIGHT
+    },
         300, // millies
         Phaser.Easing.Linear.None,
         true);
-    
+
     ///// SWAP /////
     // piece to black
     piece.posX = blackPiece.posX;
@@ -97,8 +101,8 @@ function movePiece(piece, blackPiece) {
     blackPiece.posY = tmpPiece.posY;
     blackPiece.currentIndex = tmpPiece.currentIndex;
     blackPiece.name = `piece${tmpPiece.posX}x${tmpPiece.posY}`;
-
 }
+
 function checkIfFinished() {
 
 }
